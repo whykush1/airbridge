@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+    <channel>
+        <title>AirBridge Changelog</title>
+        <item>
+            <title>Version 1.0.0</title>
+            <description>Initial Release of AirBridge.</description>
+            <pubDate>Wed, 03 Jun 2026 12:00:00 +0000</pubDate>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+        </item>
+    </channel>
+</rss>
