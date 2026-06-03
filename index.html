@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirBridge Connection</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            max-width: 300px;
+        }
+        h2 { margin-top: 0; font-size: 1.5rem; }
+        p { color: #888; font-size: 0.95rem; }
+        .loader {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid #007aff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="title">Connecting...</h2>
+        <div class="loader" id="loader"></div>
+        <p id="msg">Locating your Mac on the local network.</p>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('c');
+        
+        if (code) {
+            let num = parseInt(code, 36);
+            if (!isNaN(num)) {
+                let ip = [
+                    (num >>> 24) & 255,
+                    (num >>> 16) & 255,
+                    (num >>> 8) & 255,
+                    num & 255
+                ].join('.');
+                
+                document.getElementById('msg').innerText = "Redirecting to " + ip + "...";
+                
+                // Redirect to the local IP
+                setTimeout(() => {
+                    window.location.href = "http://" + ip + ":8080";
+                }, 500);
+            } else {
+                document.getElementById('title').innerText = "Error";
+                document.getElementById('msg').innerText = "Invalid connection code.";
+                document.getElementById('loader').style.display = "none";
+            }
+        } else {
+            document.getElementById('title').innerText = "AirBridge";
+            document.getElementById('msg').innerText = "No connection code provided. Please scan the QR code from your Mac.";
+            document.getElementById('loader').style.display = "none";
+        }
+    </script>
+</body>
+</html>
